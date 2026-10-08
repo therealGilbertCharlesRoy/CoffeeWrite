@@ -1,0 +1,700 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Screenwriter.App.ViewModels"
+        xmlns:edit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+        xmlns:shapes="clr-namespace:Avalonia.Controls.Shapes;assembly=Avalonia.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1500" d:DesignHeight="950"
+        x:Class="Screenwriter.App.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="Draftroom — Untitled screenplay"
+        Width="1440" Height="920" MinWidth="1080" MinHeight="680"
+        Background="{DynamicResource WindowBackground}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="WindowBackground">#F3F2EF</SolidColorBrush>
+                    <SolidColorBrush x:Key="PaneBackground">#F7F6F3</SolidColorBrush>
+                    <SolidColorBrush x:Key="ToolbarBackground">#FBFAF8</SolidColorBrush>
+                    <SolidColorBrush x:Key="SurfaceBackground">#FBFAF8</SolidColorBrush>
+                    <SolidColorBrush x:Key="SurfaceBorder">#E6E4DF</SolidColorBrush>
+                    <SolidColorBrush x:Key="PrimaryText">#292C27</SolidColorBrush>
+                    <SolidColorBrush x:Key="SecondaryText">#777970</SolidColorBrush>
+                    <SolidColorBrush x:Key="MutedText">#8D8E86</SolidColorBrush>
+                    <SolidColorBrush x:Key="CanvasBackground">#ECEBE7</SolidColorBrush>
+                    <SolidColorBrush x:Key="SoftBackground">#F3F2EE</SolidColorBrush>
+                    <SolidColorBrush x:Key="PaperBorder">#E2E0DB</SolidColorBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="WindowBackground">#1C201E</SolidColorBrush>
+                    <SolidColorBrush x:Key="PaneBackground">#222724</SolidColorBrush>
+                    <SolidColorBrush x:Key="ToolbarBackground">#272C29</SolidColorBrush>
+                    <SolidColorBrush x:Key="SurfaceBackground">#292F2C</SolidColorBrush>
+                    <SolidColorBrush x:Key="SurfaceBorder">#3C433F</SolidColorBrush>
+                    <SolidColorBrush x:Key="PrimaryText">#E8E9E4</SolidColorBrush>
+                    <SolidColorBrush x:Key="SecondaryText">#AAAEA7</SolidColorBrush>
+                    <SolidColorBrush x:Key="MutedText">#929A93</SolidColorBrush>
+                    <SolidColorBrush x:Key="CanvasBackground">#191D1B</SolidColorBrush>
+                    <SolidColorBrush x:Key="SoftBackground">#303733</SolidColorBrush>
+                    <SolidColorBrush x:Key="PaperBorder">#49504B</SolidColorBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Button.chrome">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryText}" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style Selector="Button.chrome:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SoftBackground}" />
+        </Style>
+        <Style Selector="Button.action">
+            <Setter Property="Background" Value="#263B34" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="13,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style Selector="Button.action:pointerover">
+            <Setter Property="Background" Value="#385348" />
+        </Style>
+        <Style Selector="Button.tab">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Padding" Value="0,12" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryText}" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="Border.surface">
+            <Setter Property="Background" Value="{DynamicResource SurfaceBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SurfaceBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="62,*,28">
+        <!-- Application header -->
+        <Border Grid.Row="0" Background="{DynamicResource ToolbarBackground}" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto,*,Auto" Margin="20,0">
+                <StackPanel Orientation="Horizontal" Spacing="11" VerticalAlignment="Center">
+                    <Border Width="30" Height="30" Background="#263B34" CornerRadius="7">
+                        <TextBlock Text="D" Foreground="#F5F1E9" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Spacing="1" VerticalAlignment="Center">
+                        <TextBlock Text="DRAFTROOM" FontSize="11" FontWeight="Bold" LetterSpacing="1.7" Foreground="#263B34" />
+                        <TextBlock Text="THE WRITER'S DESK" FontSize="9" LetterSpacing="1.4" Foreground="#97978F" />
+                    </StackPanel>
+                    <Border Width="1" Height="28" Background="#E8E6E1" Margin="9,0" />
+                    <StackPanel Spacing="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ProjectTitle}" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                        <TextBlock Text="{Binding SaveStateText}" FontSize="11" Foreground="{DynamicResource SecondaryText}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                    <Button Classes="chrome" Content="Restore unsaved work" IsVisible="{Binding CanRecoverSession}" Click="RecoverSession_Click" />
+                    <Button Classes="chrome" Content="New" Click="NewProject_Click" />
+                    <Button Classes="chrome" Content="New series" Click="NewSeries_Click" />
+                    <Button Classes="chrome" Content="Open" Click="OpenProject_Click" />
+                    <Button Classes="chrome" Content="☼  Theme" Command="{Binding ToggleThemeCommand}" />
+                    <Button Classes="chrome" Content="Privacy" Command="{Binding OpenPrivacySettingsCommand}" />
+                    <Button Classes="chrome" Content="Save as" Click="SaveAsProject_Click" />
+                    <Button Classes="chrome" Content="Export PDF" Click="ExportPdf_Click" />
+                    <Button Classes="action" Content="Save" Click="SaveProject_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main writing workspace -->
+        <Grid Grid.Row="1" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding BeatBoardWidth}" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="{Binding EditorWidth}" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="{Binding ToolsWidth}" />
+            </Grid.ColumnDefinitions>
+            <!-- Beat board -->
+            <Border Grid.Column="0" Background="{DynamicResource PaneBackground}" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="0,0,1,0" IsVisible="{Binding IsBeatBoardVisible}">
+                <Grid RowDefinitions="Auto,Auto,*" Margin="20,18,16,14">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Spacing="3">
+                            <TextBlock Text="STORY MAP" FontSize="10" FontWeight="Bold" LetterSpacing="1.6" Foreground="{DynamicResource MutedText}" />
+                            <TextBlock Text="{Binding StoryPanelTitle}" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
+                            <Button Classes="chrome" Content="⤢" ToolTip.Tip="Expand beat board" Command="{Binding ToggleBeatBoardSizeCommand}" />
+                            <Button Classes="chrome" Content="‹" ToolTip.Tip="Hide beat board" Command="{Binding ToggleBeatBoardCommand}" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,18,0,14">
+                        <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                            <Button Classes="chrome" Content="Beats" Command="{Binding ShowLeftPanelCommand}" CommandParameter="Beats" />
+                            <Button Classes="chrome" Content="Episodes" IsVisible="{Binding IsSeriesProject}" Command="{Binding ShowLeftPanelCommand}" CommandParameter="Episodes" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+                            <Button Classes="chrome" Content="＋ Season" IsVisible="{Binding ShowEpisodeContent}" Click="AddSeason_Click" />
+                            <Button Classes="chrome" Content="＋ Beat" ToolTip.Tip="Add a beat" IsVisible="{Binding ShowBeatBoardContent}" Command="{Binding AddBeatCommand}" />
+                            <Button Classes="chrome" Content="＋ Group" ToolTip.Tip="Add a beat section" IsVisible="{Binding ShowBeatBoardContent}" Command="{Binding AddBeatGroupCommand}" />
+                        </StackPanel>
+                    </Grid>
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                        <StackPanel Spacing="10" IsVisible="{Binding ShowBeatBoardContent}">
+                            <TextBlock Text="Plan story moments and group them into acts, sequences, or whatever structure fits your project." FontSize="11" LineHeight="16" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                            <ItemsControl ItemsSource="{Binding BeatGroups}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:BeatGroupViewModel">
+                                        <StackPanel Spacing="8" Margin="0,0,0,8">
+                                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="2">
+                                                <TextBox Text="{Binding Title, Mode=TwoWay}" FontSize="11" FontWeight="Bold" LetterSpacing="0.7" PlaceholderText="SECTION" />
+                                                <Button Grid.Column="1" Classes="chrome" Content="↑" ToolTip.Tip="Move section up" Command="{Binding MoveUpCommand}" Padding="5,2" />
+                                                <Button Grid.Column="2" Classes="chrome" Content="↓" ToolTip.Tip="Move section down" Command="{Binding MoveDownCommand}" Padding="5,2" />
+                                            </Grid>
+                                            <ItemsControl ItemsSource="{Binding Beats}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="vm:BeatCardViewModel">
+                                                        <Border Classes="surface" Padding="0" Margin="0,0,0,4">
+                                                            <Grid ColumnDefinitions="4,*">
+                                                            <Border Grid.Column="0" Background="{Binding ColorBrush}" />
+                                                            <StackPanel Grid.Column="1" Spacing="6" Margin="10">
+                                                                <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                                                                    <TextBox Text="{Binding Label, Mode=TwoWay}" FontSize="9" FontWeight="Bold" PlaceholderText="BEAT LABEL" BorderThickness="0" Padding="0" />
+                                                                    <Button Grid.Column="1" Classes="chrome" Content="↑" ToolTip.Tip="Move beat up" Command="{Binding MoveUpCommand}" Padding="5,1" />
+                                                                    <Button Grid.Column="2" Classes="chrome" Content="↓" ToolTip.Tip="Move beat down" Command="{Binding MoveDownCommand}" Padding="5,1" />
+                                                                    <Button Grid.Column="3" Classes="chrome" Content="×" ToolTip.Tip="Remove beat" Command="{Binding RemoveCommand}" Padding="5,1" />
+                                                                </Grid>
+                                                                <TextBox Text="{Binding Title, Mode=TwoWay}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="32" PlaceholderText="What happens?" />
+                                                                <TextBox Text="{Binding Notes, Mode=TwoWay}" FontSize="11" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="46" PlaceholderText="Why does this beat matter?" />
+                                                                <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
+                                                                    <ComboBox ItemsSource="{Binding GroupChoices}" SelectedItem="{Binding SelectedGroup, Mode=TwoWay}" PlaceholderText="Move to section">
+                                                                        <ComboBox.ItemTemplate>
+                                                                            <DataTemplate x:DataType="vm:BeatGroupChoice">
+                                                                                <TextBlock Text="{Binding Title}" />
+                                                                            </DataTemplate>
+                                                                        </ComboBox.ItemTemplate>
+                                                                    </ComboBox>
+                                                                    <ComboBox Grid.Column="1" ItemsSource="{Binding ColorChoices}" SelectedItem="{Binding SelectedColor, Mode=TwoWay}" PlaceholderText="Card color">
+                                                                        <ComboBox.ItemTemplate>
+                                                                            <DataTemplate x:DataType="vm:BeatColorChoice">
+                                                                                <TextBlock Text="{Binding Title}" />
+                                                                            </DataTemplate>
+                                                                        </ComboBox.ItemTemplate>
+                                                                    </ComboBox>
+                                                                </Grid>
+                                                                <ComboBox ItemsSource="{Binding SceneOptions}" SelectedItem="{Binding SelectedScene, Mode=TwoWay}" PlaceholderText="Link to a scene">
+                                                                    <ComboBox.ItemTemplate>
+                                                                        <DataTemplate x:DataType="vm:SceneLinkOption">
+                                                                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                                                                        </DataTemplate>
+                                                                    </ComboBox.ItemTemplate>
+                                                                </ComboBox>
+                                                                <Button Classes="chrome" Content="↗  Go to scene" HorizontalAlignment="Left" Command="{Binding NavigateCommand}" IsVisible="{Binding CanNavigateToScene}" />
+                                                            </StackPanel>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                        <StackPanel IsVisible="{Binding ShowEpisodeContent}" Spacing="14">
+                            <TextBlock Text="SERIES OUTLINE" FontSize="9" FontWeight="Bold" LetterSpacing="1.2" Foreground="{DynamicResource MutedText}" />
+                            <ItemsControl ItemsSource="{Binding Seasons}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:SeasonNavigationItem">
+                                        <StackPanel Spacing="8" Margin="0,0,0,12">
+                                            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="4">
+                                                <TextBlock Text="{Binding Heading}" FontSize="9" FontWeight="Bold" LetterSpacing="0.8" Foreground="{DynamicResource MutedText}" VerticalAlignment="Center" />
+                                                <TextBox Grid.Column="1" Text="{Binding Title, Mode=TwoWay}" FontSize="12" VerticalContentAlignment="Center" MinWidth="80" />
+                                                <Button Grid.Column="2" Classes="chrome" Content="＋" ToolTip.Tip="Add episode" Tag="{Binding Id}" Click="AddEpisode_Click" />
+                                                <Button Grid.Column="3" Classes="chrome" Content="↑" ToolTip.Tip="Move season up" Tag="{Binding Id}" Click="MoveSeasonUp_Click" />
+                                                <Button Grid.Column="4" Classes="chrome" Content="↓" ToolTip.Tip="Move season down" Tag="{Binding Id}" Click="MoveSeasonDown_Click" />
+                                            </Grid>
+                                            <ItemsControl ItemsSource="{Binding Episodes}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="vm:EpisodeNavigationItem">
+                                                        <Border Classes="surface" Padding="9" Margin="0,0,0,6">
+                                                            <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="3">
+                                                                <StackPanel Spacing="3">
+                                                                    <TextBlock Text="{Binding DisplayTitle}" FontSize="9" FontWeight="SemiBold" Foreground="{DynamicResource MutedText}" />
+                                                                    <TextBox Text="{Binding Title, Mode=TwoWay}" FontSize="12" PlaceholderText="Episode title" />
+                                                                </StackPanel>
+                                                                <Button Grid.Column="1" Classes="chrome" Content="Open" Tag="{Binding Id}" Click="OpenEpisode_Click" />
+                                                                <Button Grid.Column="2" Classes="chrome" Content="↑" ToolTip.Tip="Move episode up" Tag="{Binding Id}" Click="MoveEpisodeUp_Click" />
+                                                                <Button Grid.Column="3" Classes="chrome" Content="↓" ToolTip.Tip="Move episode down" Tag="{Binding Id}" Click="MoveEpisodeDown_Click" />
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock Text="Characters and relationships are shared across the series." FontSize="11" LineHeight="16" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                        </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <GridSplitter Grid.Column="1" Width="8" Background="Transparent" IsVisible="{Binding IsBeatBoardVisible}" />
+
+            <!-- Writing surface -->
+            <Grid Grid.Column="2" Background="{DynamicResource CanvasBackground}" RowDefinitions="48,Auto,*">
+                <Grid ColumnDefinitions="Auto,*,Auto" Margin="22,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Text="SCREENPLAY" FontSize="10" FontWeight="Bold" LetterSpacing="1.4" Foreground="#8A8B84" VerticalAlignment="Center" />
+                        <ComboBox Width="136" ItemsSource="{Binding FormatProfiles}" SelectedItem="{Binding SelectedFormatProfile, Mode=TwoWay}" FontSize="11">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Width="92" ItemsSource="{Binding PageSizes}" SelectedItem="{Binding SelectedPageSize, Mode=TwoWay}" FontSize="11">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="vm:PageSizeOption">
+                                    <TextBlock Text="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Classes="chrome" Content="Page setup" Command="{Binding TogglePageSetupCommand}" />
+                        <ComboBox x:Name="ElementTypePicker" Width="134" ItemsSource="{Binding ElementOptions}" SelectedItem="{Binding SelectedElementOption, Mode=TwoWay}" FontSize="11">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Label}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Classes="chrome" Content="Apply" ToolTip.Tip="Apply this element type to the current line" Click="ApplyElementType_Click" />
+                        <Button Classes="chrome" Content="＋ Act break" IsVisible="{Binding IsTelevisionFormat}" ToolTip.Tip="Insert the next act heading; each act starts on a new page" Click="InsertActBreak_Click" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
+                        <Button Classes="chrome" Content="‹" ToolTip.Tip="Go to previous page" Click="PreviousPage_Click" />
+                        <TextBlock Text="{Binding CurrentPageIndicator}" FontSize="10" Foreground="#74766F" VerticalAlignment="Center" />
+                        <Button Classes="chrome" Content="›" ToolTip.Tip="Go to next page" Click="NextPage_Click" />
+                        <Button Classes="chrome" Content="Undo" ToolTip.Tip="Undo (Ctrl+Z)" Click="Undo_Click" />
+                        <Button Classes="chrome" Content="Redo" ToolTip.Tip="Redo (Ctrl+Y)" Click="Redo_Click" />
+                        <Button Classes="chrome" Content="Find" ToolTip.Tip="Find and replace" Click="ToggleFindReplace_Click" />
+                        <Button Classes="chrome" Content="Spellcheck" ToolTip.Tip="Check spelling on this device" Command="{Binding CheckSpellingCommand}" />
+                        <Button Classes="chrome" Content="{Binding WritingSurfaceModeText}" ToolTip.Tip="Switch between writing and page preview" Command="{Binding TogglePagePreviewCommand}" />
+                        <Button Classes="chrome" Content="−" ToolTip.Tip="Zoom out" />
+                        <TextBlock Text="100%" FontSize="11" Foreground="#74766F" VerticalAlignment="Center" />
+                        <Button Classes="chrome" Content="＋" ToolTip.Tip="Zoom in" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+                    <Grid>
+                        <Border IsVisible="{Binding IsFindReplaceVisible}" Background="{DynamicResource ToolbarBackground}" Padding="14,8" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="0,1">
+                            <StackPanel Orientation="Horizontal" Spacing="7">
+                                <TextBox x:Name="FindInput" Width="170" PlaceholderText="Find" Text="{Binding FindQuery, Mode=TwoWay}" />
+                                <TextBox x:Name="ReplaceInput" Width="170" PlaceholderText="Replace with" Text="{Binding ReplaceText, Mode=TwoWay}" />
+                                <Button Classes="chrome" Content="Next" Click="FindNext_Click" />
+                                <Button Classes="chrome" Content="Replace" Click="Replace_Click" />
+                            </StackPanel>
+                        </Border>
+                        <Border IsVisible="{Binding IsSpellcheckVisible}" Background="{DynamicResource ToolbarBackground}" Padding="12,6" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="0,1">
+                            <StackPanel Spacing="3">
+                                <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="8">
+                                    <TextBlock Text="{Binding SpellcheckStatus}" FontSize="11" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center" />
+                                    <ComboBox Grid.Column="1" Width="150" ItemsSource="{Binding SpellingIssues}" SelectedItem="{Binding SelectedSpellingIssue, Mode=TwoWay}" PlaceholderText="No issues" SelectionChanged="SpellingIssue_SelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:SpellingIssue">
+                                                <TextBlock Text="{Binding Word}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox Grid.Column="2" Width="150" ItemsSource="{Binding SelectedSpellingSuggestions}" SelectedItem="{Binding SelectedSpellingSuggestion, Mode=TwoWay}" PlaceholderText="Suggestions" />
+                                    <Button Grid.Column="3" Classes="chrome" Content="Replace" Click="ReplaceSpelling_Click" />
+                                    <Button Grid.Column="4" Classes="chrome" Content="Ignore" Click="IgnoreSpelling_Click" />
+                                </Grid>
+                                <TextBlock Text="Dictionary credits: SCOWL © Kevin Atkinson · UKACD © J. Ross Beresford 1993–1999 · Full notices ship with Draftroom." FontSize="9" Foreground="{DynamicResource MutedText}" />
+                            </StackPanel>
+                        </Border>
+                        <Border IsVisible="{Binding IsPageSetupVisible}" Background="{DynamicResource ToolbarBackground}" Padding="12,8" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="0,1">
+                            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                <TextBlock Text="PAGE SETUP · INCHES" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource MutedText}" VerticalAlignment="Center" />
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Left" FontSize="9" Foreground="{DynamicResource SecondaryText}" />
+                                    <NumericUpDown Width="66" Minimum="0.25" Maximum="3" Increment="0.25" FormatString="0.00" Value="{Binding LeftMarginInches, Mode=TwoWay}" />
+                                </StackPanel>
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Right" FontSize="9" Foreground="{DynamicResource SecondaryText}" />
+                                    <NumericUpDown Width="66" Minimum="0.25" Maximum="3" Increment="0.25" FormatString="0.00" Value="{Binding RightMarginInches, Mode=TwoWay}" />
+                                </StackPanel>
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Top" FontSize="9" Foreground="{DynamicResource SecondaryText}" />
+                                    <NumericUpDown Width="66" Minimum="0.25" Maximum="3" Increment="0.25" FormatString="0.00" Value="{Binding TopMarginInches, Mode=TwoWay}" />
+                                </StackPanel>
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Bottom" FontSize="9" Foreground="{DynamicResource SecondaryText}" />
+                                    <NumericUpDown Width="66" Minimum="0.25" Maximum="3" Increment="0.25" FormatString="0.00" Value="{Binding BottomMarginInches, Mode=TwoWay}" />
+                                </StackPanel>
+                                <CheckBox Content="Show page numbers" IsChecked="{Binding ShowPageNumbers, Mode=TwoWay}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center" Margin="6,0,14,0">
+                        <TextBlock Text="SUGGESTIONS" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource MutedText}" VerticalAlignment="Center" />
+                        <ComboBox x:Name="SuggestionsPicker" Width="132" ItemsSource="{Binding Suggestions}" SelectedItem="{Binding SelectedSuggestion, Mode=TwoWay}" PlaceholderText="No suggestions">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Text}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Classes="chrome" Content="Insert" Click="InsertSuggestion_Click" />
+                    </StackPanel>
+                </Grid>
+                <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Border Width="670" MinHeight="845" HorizontalAlignment="Center" Background="#FFF" BorderBrush="{DynamicResource PaperBorder}" BorderThickness="1" Margin="0,10,0,32" Padding="90,74" IsVisible="{Binding IsWritingSurfaceVisible}">
+                            <Grid RowDefinitions="Auto,*">
+                                <TextBlock Text="{Binding SelectedFormatProfile.DisplayName}" HorizontalAlignment="Right" FontFamily="Courier New" FontSize="9" Foreground="#777" />
+                                <edit:TextEditor x:Name="ScriptEditor" Grid.Row="1" FontFamily="Courier New" FontSize="12" Foreground="#171717" Background="White" BorderThickness="0" Padding="0" WordWrap="True" ShowLineNumbers="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" MinHeight="650" Margin="0,58,0,0" />
+                            </Grid>
+                        </Border>
+                        <Border Width="670" MinHeight="845" HorizontalAlignment="Center" Background="#FFF" BorderBrush="{DynamicResource PaperBorder}" BorderThickness="1" Margin="0,10,0,32" Padding="34,46" IsVisible="{Binding IsAudioVisualWritingVisible}">
+                            <Grid RowDefinitions="Auto,*,Auto">
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="14" Margin="0,0,0,12">
+                                    <TextBlock Text="AUDIO" FontSize="9" FontWeight="Bold" LetterSpacing="0.8" Foreground="#777" />
+                                    <TextBlock Grid.Column="1" Text="VISUAL" FontSize="9" FontWeight="Bold" LetterSpacing="0.8" Foreground="#777" />
+                                </Grid>
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding AudioVisualWritingRows}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:AudioVisualWritingRowViewModel">
+                                                <Grid ColumnDefinitions="*,*" ColumnSpacing="14" Margin="0,0,0,8">
+                                                    <TextBox Text="{Binding LeftEditorText, Mode=OneWay}" Grid.ColumnSpan="{Binding LeftColumnSpan}" Tag="audio" PlaceholderText="{Binding LeftPlaceholder}" IsEnabled="{Binding HasLeftLine}" MinHeight="52" TextWrapping="Wrap" AcceptsReturn="False" FontFamily="Courier New" FontSize="12" Padding="8" GotFocus="AudioVisualInput_GotFocus" TextChanged="AudioVisualInput_TextChanged" />
+                                                    <TextBox Grid.Column="1" Text="{Binding RightText, Mode=OneWay}" Tag="visual" PlaceholderText="{Binding RightPlaceholder}" IsVisible="{Binding HasRightColumn}" IsEnabled="{Binding HasRightLine}" MinHeight="52" TextWrapping="Wrap" AcceptsReturn="False" FontFamily="Courier New" FontSize="12" Padding="8" GotFocus="AudioVisualInput_GotFocus" TextChanged="AudioVisualInput_TextChanged" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                                <Button Grid.Row="2" Classes="chrome" HorizontalAlignment="Left" Content="＋  Add Audio / Visual row" Command="{Binding AddAudioVisualRowCommand}" Margin="0,12,0,0" />
+                            </Grid>
+                        </Border>
+                        <ItemsControl ItemsSource="{Binding CurrentPreviewPageItems}" IsVisible="{Binding IsPagePreviewVisible}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ScriptPageViewModel">
+                                    <StackPanel Spacing="4" HorizontalAlignment="Center" Margin="0,10,0,22">
+                                    <Grid Width="670" ColumnDefinitions="*,Auto" Margin="0,0,0,0">
+                                        <TextBlock Text="{Binding PageNumber, StringFormat='Page {0}'}" IsVisible="{Binding IsScriptPage}" FontSize="10" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center" />
+                                        <Button Grid.Column="1" Classes="chrome" Content="Edit page" Tag="{Binding StartOffset}" Click="EditPreviewPage_Click" />
+                                    </Grid>
+                                    <Border Width="670" Height="{Binding PageHeight}" HorizontalAlignment="Center" Background="#FFF" BorderBrush="{DynamicResource PaperBorder}" BorderThickness="1" Padding="{Binding PagePadding}">
+                                        <Grid>
+                                        <Grid IsVisible="{Binding IsTitlePage}" RowDefinitions="*,Auto,*">
+                                            <StackPanel Grid.Row="1" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Title}" FontFamily="Courier New" FontSize="16" FontWeight="SemiBold" Foreground="#171717" HorizontalAlignment="Center" />
+                                                <TextBlock Text="{Binding Subtitle}" FontFamily="Courier New" FontSize="12" Foreground="#333" HorizontalAlignment="Center" />
+                                                <TextBlock Text="by" FontFamily="Courier New" FontSize="12" Foreground="#333" HorizontalAlignment="Center" />
+                                                <TextBlock Text="{Binding Author}" FontFamily="Courier New" FontSize="12" Foreground="#333" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="2" Spacing="3" VerticalAlignment="Bottom">
+                                                <TextBlock Text="{Binding DraftDate}" FontFamily="Courier New" FontSize="10" Foreground="#333" />
+                                                <TextBlock Text="{Binding Contact}" FontFamily="Courier New" FontSize="10" Foreground="#333" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid IsVisible="{Binding IsScriptPage}" RowDefinitions="Auto,Auto,*">
+                                            <TextBlock Grid.Row="0" Text="{Binding PageNumber}" IsVisible="{Binding ShowPageNumber}" HorizontalAlignment="Right" FontFamily="Courier New" FontSize="10" Foreground="#252525" Margin="0,0,0,22" />
+                                            <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="16" IsVisible="{Binding IsTwoColumn}" Margin="0,0,0,8">
+                                                <TextBlock Text="AUDIO" FontSize="9" FontWeight="Bold" Foreground="#777" />
+                                                <TextBlock Grid.Column="1" Text="VISUAL" FontSize="9" FontWeight="Bold" Foreground="#777" />
+                                            </Grid>
+                                            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
+                                                <ItemsControl ItemsSource="{Binding Rows}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate x:DataType="vm:ScriptPreviewRowViewModel">
+                                                            <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="{Binding Margin}">
+                                                                <TextBlock Text="{Binding LeftText}" MinHeight="14" LineHeight="14" TextWrapping="NoWrap" FontFamily="Courier New" FontSize="12" Foreground="#171717" />
+                                                                <TextBlock Grid.Column="1" Text="{Binding RightText}" MinHeight="14" LineHeight="14" TextWrapping="NoWrap" FontFamily="Courier New" FontSize="12" Foreground="#171717" />
+                                                                <TextBlock Grid.ColumnSpan="2" Text="{Binding FullText}" MinHeight="14" LineHeight="14" TextWrapping="NoWrap" FontFamily="Courier New" FontSize="12" Foreground="#171717" />
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                        </Grid>
+                                    </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+
+            <GridSplitter Grid.Column="3" Width="8" Background="Transparent" />
+
+            <!-- Story tools -->
+            <Border Grid.Column="4" Background="{DynamicResource ToolbarBackground}" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="1,0,0,0">
+                <Grid RowDefinitions="Auto,Auto,*" Margin="18,18,18,14">
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Text="STORY TOOLS" FontSize="10" FontWeight="Bold" LetterSpacing="1.5" Foreground="#8D8E86" VerticalAlignment="Center" />
+                        <Border Background="#F0EEE9" CornerRadius="4" Padding="7,3">
+                            <TextBlock Text="AI PREVIEW" FontSize="8" FontWeight="Bold" LetterSpacing="0.7" Foreground="#77786F" />
+                        </Border>
+                    </StackPanel>
+                    <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" Margin="0,15,0,0">
+                        <Button Classes="tab" Content="Research" Command="{Binding ShowToolCommand}" CommandParameter="Research" />
+                        <Button Grid.Column="1" Classes="tab" Content="Characters" Command="{Binding ShowToolCommand}" CommandParameter="Characters" />
+                        <Button Grid.Column="2" Classes="tab" Content="Relations" Command="{Binding ShowToolCommand}" CommandParameter="Relationships" />
+                        <Button Grid.Column="3" Classes="tab" Content="Drive" Command="{Binding ShowToolCommand}" CommandParameter="Drive" />
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0,17,0,0">
+                        <StackPanel IsVisible="{Binding ShowDrive}" Spacing="14">
+                            <Border Background="{DynamicResource SoftBackground}" CornerRadius="8" Padding="15">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="Google Drive" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                                    <TextBlock Text="{Binding DriveSyncStatusText}" FontSize="12" LineHeight="18" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                    <TextBlock Text="{Binding DriveOAuthStatusText}" FontSize="11" LineHeight="16" TextWrapping="Wrap" Foreground="{DynamicResource MutedText}" />
+                                    <TextBlock Text="{Binding DriveConnectionMessage}" FontSize="11" LineHeight="16" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Classes="surface" Padding="13">
+                                <StackPanel Spacing="12">
+                                    <Button Classes="action" Content="Connect Google Drive" Command="{Binding ConnectDriveCommand}" IsEnabled="{Binding CanConnectDrive}" />
+                                    <Button Classes="chrome" Content="Disconnect Google Drive" Command="{Binding DisconnectDriveCommand}" IsVisible="{Binding IsDriveConnected}" IsEnabled="{Binding CanDisconnectDrive}" HorizontalAlignment="Left" />
+                                    <CheckBox Content="Sync this project with Google Drive" IsChecked="{Binding IsDriveSyncSelected, Mode=TwoWay}" />
+                                    <CheckBox Content="Automatically sync after local saves" IsChecked="{Binding IsDriveAutoSyncEnabled, Mode=TwoWay}" IsEnabled="{Binding IsDriveSyncSelected}" Margin="16,0,0,0" />
+                                    <Button Classes="action" Content="Sync now" Command="{Binding SyncDriveCommand}" IsEnabled="{Binding CanSyncDrive}" HorizontalAlignment="Left" />
+                                    <TextBlock Text="Local saving always happens first. Auto-sync is optional and can be turned off at any time." FontSize="11" LineHeight="16" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                </StackPanel>
+                            </Border>
+                            <Border IsVisible="{Binding HasDriveConflict}" Background="{DynamicResource SoftBackground}" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="1" CornerRadius="8" Padding="13">
+                                <StackPanel Spacing="9">
+                                    <TextBlock Text="Choose which version to keep" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                                    <TextBlock Text="Both versions are preserved. The Drive copy is also saved locally as:" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                    <TextBlock Text="{Binding DriveConflictCopyName}" FontSize="11" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource PrimaryText}" />
+                                    <Button Classes="chrome" Content="Open Drive copy" Command="{Binding OpenDriveConflictCopyCommand}" HorizontalAlignment="Left" />
+                                    <Button Classes="action" Content="Keep my copy and update Drive" Command="{Binding KeepLocalAndUpdateDriveCommand}" IsEnabled="{Binding CanResolveDriveConflict}" HorizontalAlignment="Left" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel IsVisible="{Binding ShowResearch}" Spacing="14">
+                            <Border Background="{DynamicResource SoftBackground}" CornerRadius="8" Padding="15">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="Research assistant" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                                    <TextBlock Text="AI research is planned for a future release. It will be available to subscribers when the service is ready." FontSize="12" LineHeight="18" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                    <TextBlock Text="This preview works offline and sends no data." FontSize="10" TextWrapping="Wrap" Foreground="#91928B" />
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="YOUR NOTES" FontSize="9" FontWeight="Bold" LetterSpacing="1.2" Foreground="#92938B" />
+                            <Border Classes="surface" Padding="13">
+                                <TextBlock Text="Keep research and story questions close while you write." FontSize="12" LineHeight="18" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                            </Border>
+                        </StackPanel>
+
+                        <ScrollViewer IsVisible="{Binding ShowCharacters}" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Spacing="12">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Spacing="3">
+                                        <TextBlock Text="CAST" FontSize="9" FontWeight="Bold" LetterSpacing="1.2" Foreground="#92938B" />
+                                        <TextBlock Text="Characters" FontSize="19" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                                    </StackPanel>
+                                    <Button Grid.Column="1" Classes="chrome" Content="＋" ToolTip.Tip="Add a character" Command="{Binding AddCharacterCommand}" />
+                                </Grid>
+                                <TextBox Text="{Binding CharacterSearchText, Mode=TwoWay}" PlaceholderText="Search names and attributes" />
+                                <TextBlock Text="No characters match that search." IsVisible="{Binding CharacterSearchHasNoResults}" FontSize="11" Foreground="{DynamicResource SecondaryText}" />
+                                <ItemsControl ItemsSource="{Binding FilteredCharacters}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CharacterCardViewModel">
+                                            <Border Classes="surface" Padding="10" Margin="0,0,0,8">
+                                                <StackPanel Spacing="8">
+                                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="5">
+                                                        <TextBox Text="{Binding Name, Mode=TwoWay}" FontSize="13" FontWeight="SemiBold" PlaceholderText="Character name" />
+                                                        <Button Grid.Column="1" Classes="chrome" Content="×" ToolTip.Tip="Remove character" Command="{Binding RemoveCommand}" />
+                                                    </Grid>
+                                                    <ItemsControl ItemsSource="{Binding Attributes}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate x:DataType="vm:CharacterAttributeViewModel">
+                                                                <Grid ColumnDefinitions="82,*,Auto" ColumnSpacing="4" Margin="0,0,0,4">
+                                                                    <TextBox Text="{Binding Key, Mode=TwoWay}" FontSize="10" PlaceholderText="Attribute" />
+                                                                    <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" FontSize="10" PlaceholderText="Add a detail" />
+                                                                    <Button Grid.Column="2" Classes="chrome" Content="×" ToolTip.Tip="Remove attribute" Command="{Binding RemoveCommand}" />
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                    <Button Classes="chrome" HorizontalAlignment="Left" Content="＋ Add attribute" Command="{Binding AddAttributeCommand}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <ScrollViewer IsVisible="{Binding ShowRelationships}" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Spacing="12">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Spacing="3">
+                                        <TextBlock Text="CONNECTIONS" FontSize="9" FontWeight="Bold" LetterSpacing="1.2" Foreground="#92938B" />
+                                        <TextBlock Text="Relationships" FontSize="19" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="3">
+                                        <Button Classes="chrome" Content="＋" ToolTip.Tip="Add a relationship; create two characters first" IsEnabled="{Binding CanAddRelationship}" Command="{Binding AddRelationshipCommand}" />
+                                        <Button Classes="chrome" Content="{Binding RelationshipViewButtonText}" ToolTip.Tip="Switch between map and relationship details" Command="{Binding ToggleRelationshipViewCommand}" />
+                                    </StackPanel>
+                                </Grid>
+                                <StackPanel IsVisible="{Binding IsRelationshipMapVisible}" Spacing="8">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <Button Classes="chrome" Content="−" ToolTip.Tip="Zoom out" Command="{Binding ZoomMapOutCommand}" />
+                                        <TextBlock Text="{Binding RelationshipMapZoom, StringFormat='{}{0:P0}'}" FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryText}" />
+                                        <Button Classes="chrome" Content="＋" ToolTip.Tip="Zoom in" Command="{Binding ZoomMapInCommand}" />
+                                        <Button Classes="chrome" Content="Reset" ToolTip.Tip="Reset map view" Command="{Binding ResetMapViewCommand}" />
+                                        <Button Classes="chrome" Content="＋ Character" Command="{Binding AddCharacterCommand}" />
+                                    </StackPanel>
+                                    <Border Classes="surface" Padding="0" ClipToBounds="True">
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="430">
+                                            <Canvas x:Name="RelationshipMapCanvas" Width="620" Height="500" Background="#F5F4F0"
+                                                    PointerPressed="RelationshipMapCanvas_PointerPressed" PointerMoved="RelationshipMapCanvas_PointerMoved" PointerReleased="RelationshipMapCanvas_PointerReleased">
+                                                <Canvas.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform ScaleX="{Binding RelationshipMapZoom}" ScaleY="{Binding RelationshipMapZoom}" />
+                                                        <TranslateTransform X="{Binding RelationshipMapPanX}" Y="{Binding RelationshipMapPanY}" />
+                                                    </TransformGroup>
+                                                </Canvas.RenderTransform>
+                                                <ItemsControl Width="620" Height="500" ItemsSource="{Binding Relationships}" IsHitTestVisible="False">
+                                                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><Canvas /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate x:DataType="vm:RelationshipCardViewModel">
+                                                            <shapes:Line StartPoint="{Binding LineStart}" EndPoint="{Binding LineEnd}" Stroke="#91A095" StrokeThickness="2" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <ItemsControl Width="620" Height="500" ItemsSource="{Binding Relationships}" IsHitTestVisible="False" ZIndex="2">
+                                                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><Canvas /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                                    <ItemsControl.Styles>
+                                                        <Style Selector="ContentPresenter">
+                                                            <Setter Property="Canvas.Left" Value="{ReflectionBinding LabelX}" />
+                                                            <Setter Property="Canvas.Top" Value="{ReflectionBinding LabelY}" />
+                                                        </Style>
+                                                    </ItemsControl.Styles>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate x:DataType="vm:RelationshipCardViewModel">
+                                                            <Border Background="#FFFEFC" BorderBrush="#D8D8D1" BorderThickness="1" CornerRadius="4" Padding="5,2">
+                                                                <TextBlock Text="{Binding MapLabel}" FontSize="9" Foreground="#59665B" />
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <ItemsControl Width="620" Height="500" ItemsSource="{Binding Characters}" ZIndex="3">
+                                                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><Canvas /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                                    <ItemsControl.Styles>
+                                                        <Style Selector="ContentPresenter">
+                                                            <Setter Property="Canvas.Left" Value="{ReflectionBinding MapX}" />
+                                                            <Setter Property="Canvas.Top" Value="{ReflectionBinding MapY}" />
+                                                        </Style>
+                                                    </ItemsControl.Styles>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate x:DataType="vm:CharacterCardViewModel">
+                                                            <Border Width="172" MinHeight="92" Classes="surface" Padding="10" Background="#FFFEFC"
+                                                                    PointerPressed="MapCharacter_PointerPressed" PointerMoved="MapCharacter_PointerMoved" PointerReleased="MapCharacter_PointerReleased">
+                                                                <StackPanel Spacing="4">
+                                                                    <TextBlock Text="CHARACTER" FontSize="8" FontWeight="Bold" LetterSpacing="0.8" Foreground="#92938B" />
+                                                                    <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="#252722" />
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Canvas>
+                                        </ScrollViewer>
+                                    </Border>
+                                    <TextBlock Text="Drag cards to arrange the map. Drag the empty canvas to pan; use the zoom controls to change scale." FontSize="10" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                    <TextBlock Text="Create at least two characters to add a relationship." IsVisible="{Binding NeedsMoreCharacters}" FontSize="10" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding IsRelationshipDetailsVisible}" Spacing="10">
+                                    <ItemsControl ItemsSource="{Binding Relationships}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:RelationshipCardViewModel">
+                                                <Border Classes="surface" Padding="10" Margin="0,0,0,8">
+                                                    <StackPanel Spacing="7">
+                                                        <Grid ColumnDefinitions="*,Auto">
+                                                            <TextBlock Text="{Binding RelationshipSummary}" FontSize="11" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource PrimaryText}" VerticalAlignment="Center" />
+                                                            <Button Grid.Column="1" Classes="chrome" Content="×" ToolTip.Tip="Remove relationship" Command="{Binding RemoveCommand}" />
+                                                        </Grid>
+                                                        <ComboBox ItemsSource="{Binding CharacterChoices}" SelectedItem="{Binding FirstCharacter, Mode=TwoWay}" PlaceholderText="First character">
+                                                            <ComboBox.ItemTemplate><DataTemplate x:DataType="vm:CharacterCardViewModel"><TextBlock Text="{Binding Name}" /></DataTemplate></ComboBox.ItemTemplate>
+                                                        </ComboBox>
+                                                        <TextBox Text="{Binding Label, Mode=TwoWay}" PlaceholderText="Relationship, such as mentor or rival" />
+                                                        <ComboBox ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection, Mode=TwoWay}">
+                                                            <ComboBox.ItemTemplate><DataTemplate x:DataType="vm:RelationshipDirectionOption"><TextBlock Text="{Binding Label}" /></DataTemplate></ComboBox.ItemTemplate>
+                                                        </ComboBox>
+                                                        <ComboBox ItemsSource="{Binding CharacterChoices}" SelectedItem="{Binding SecondCharacter, Mode=TwoWay}" PlaceholderText="Second character">
+                                                            <ComboBox.ItemTemplate><DataTemplate x:DataType="vm:CharacterCardViewModel"><TextBlock Text="{Binding Name}" /></DataTemplate></ComboBox.ItemTemplate>
+                                                        </ComboBox>
+                                                        <TextBox Text="{Binding Notes, Mode=TwoWay}" PlaceholderText="History or details" AcceptsReturn="True" MinHeight="54" TextWrapping="Wrap" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Border Background="{DynamicResource SoftBackground}" CornerRadius="8" Padding="12">
+                                        <TextBlock Text="Use mutual links for shared relationships, or choose a direction to show who feels or acts toward whom." FontSize="11" LineHeight="16" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Quiet status bar -->
+        <Border Grid.Row="2" Background="{DynamicResource ToolbarBackground}" BorderBrush="{DynamicResource SurfaceBorder}" BorderThickness="0,1,0,0">
+            <Grid ColumnDefinitions="*,Auto" Margin="20,0">
+                <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                    <TextBlock Text="Page 1 of 1" FontSize="10" Foreground="#85867F" />
+                    <TextBlock Text="·" FontSize="10" Foreground="#B0B0AA" />
+                    <TextBlock Text="Movie format" FontSize="10" Foreground="#85867F" />
+                </StackPanel>
+                <TextBlock Grid.Column="1" Text="LOCAL PROJECT  ·  OFFLINE READY" FontSize="9" FontWeight="SemiBold" LetterSpacing="0.9" Foreground="#81877F" VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="0" Grid.RowSpan="3" ZIndex="20" IsVisible="{Binding IsPrivacySettingsVisible}" Background="#99000000" Padding="24">
+            <Border Width="520" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" Classes="surface" Padding="24">
+                <StackPanel Spacing="15">
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="Your privacy" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryText}" />
+                        <TextBlock Text="Choose whether to allow optional Draftroom analytics. You can change this choice later from Privacy." FontSize="12" LineHeight="18" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                    </StackPanel>
+                    <Border Background="{DynamicResource SoftBackground}" CornerRadius="7" Padding="13">
+                        <TextBlock Text="Analytics counts app opens, active days, app version, platform, and broad feature use. It never includes screenplay text, project titles, filenames, paths, character or beat details, or prompts. A random installation ID is created only after you opt in. Turning it off stops new events and clears the local queue and ID; data already received may remain under the provider's retention policy." FontSize="11" LineHeight="17" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                    </Border>
+                    <TextBlock Text="{Binding AnalyticsConsentStatus}" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource MutedText}" />
+                    <TextBlock Text="{Binding AnalyticsInformationText}" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                    <TextBlock Text="{Binding PrivacySettingsMessage}" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource SecondaryText}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="9">
+                        <Button Classes="chrome" Content="Keep analytics off" Command="{Binding KeepAnalyticsOffCommand}" />
+                        <Button Classes="action" Content="Allow optional analytics" Command="{Binding AllowAnalyticsCommand}" />
+                        <Button Classes="chrome" Content="Done" Command="{Binding ClosePrivacySettingsCommand}" IsVisible="{Binding CanClosePrivacySettings}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

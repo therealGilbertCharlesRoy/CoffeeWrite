@@ -1,0 +1,16 @@
+# .NET build output
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Local SDK and tools used in this workspace
+/.dotnet/
+/.dotnet-home/
+/work/dotnet-install.sh
+
+# Release signing material must never be committed
+*.pfx
+*.p12
+*.pem
+*.key

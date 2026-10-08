@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Screenwriter.App/Screenwriter.App.csproj" />
+    <Project Path="src/Screenwriter.Core/Screenwriter.Core.csproj" />
+    <Project Path="src/Screenwriter.Editor/Screenwriter.Editor.csproj" />
+    <Project Path="src/Screenwriter.Export/Screenwriter.Export.csproj" />
+    <Project Path="src/Screenwriter.Infrastructure/Screenwriter.Infrastructure.csproj" />
+  </Folder>
+</Solution>
